@@ -1,0 +1,14 @@
+tweet-preprocessor
+nltk
+pyspellchecker
+symspellpy
+scikit-learn
+pandas
+matplotlib
+numpy
+datasets
+transformers
+evaluate
+ipywidgets
+jupyterlab
+notebook
