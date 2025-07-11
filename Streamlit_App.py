@@ -1,16 +1,13 @@
 import streamlit as st
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
-import numpy as np
-from pathlib import Path
 
-MODEL_PATH = Path(r"C:\Users\User\Desktop\Ironhack_DA\Final-project-hate-speech-detection-with-NLP\best_model_final")
+MODEL_REPO = "GeorgiosKoutroumanos/NLP-Roberta-HP-detection"
 
 @st.cache_resource(show_spinner=False)
 def load_model():
-    model_path_posix = MODEL_PATH.as_posix()
-    tokenizer = AutoTokenizer.from_pretrained(model_path_posix, local_files_only=True)
-    model = AutoModelForSequenceClassification.from_pretrained(model_path_posix, local_files_only=True)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_REPO)
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL_REPO)
     model.eval()
     return tokenizer, model
 
