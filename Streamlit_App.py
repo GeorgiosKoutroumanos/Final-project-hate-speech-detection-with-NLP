@@ -6,9 +6,11 @@ MODEL_REPO = "GeorgiosKoutroumanos/NLP-Roberta-HP-detection"
 
 @st.cache_resource(show_spinner=False)
 def load_model():
+    st.write("Loading model from Hugging Face Hub...")
     tokenizer = AutoTokenizer.from_pretrained(MODEL_REPO)
     model = AutoModelForSequenceClassification.from_pretrained(MODEL_REPO)
     model.eval()
+    st.write("Model loaded successfully!")
     return tokenizer, model
 
 def predict(text, tokenizer, model):
