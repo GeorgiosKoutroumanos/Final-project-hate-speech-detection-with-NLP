@@ -24,7 +24,7 @@ def predict(text, tokenizer, model):
     return predicted_class_id, confidence
 
 def main():
-    st.title("Hate Speech Detector by Yorgos 🔍")
+    st.title("Hate Speech Detector 🔍")
 
     tokenizer, model = load_model()
 

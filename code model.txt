@@ -1,0 +1,70 @@
+df_reduced = df_balanced.groupby('class', group_keys=False).apply(lambda x: x.sample(frac=0.8, random_state=42)).reset_index(drop=True) #changed from 0.7 to 0.8
+df_reduced = df_reduced.drop(columns=['char_length'])
+df_reduced.groupby('class').count()
+X = df_reduced["tweet_cleaned"]
+y = df_reduced["class"]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42
+)
+tokenizer = RobertaTokenizerFast.from_pretrained("distilroberta-base")
+train_encodings = tokenizer(list(X_train), truncation=True, padding=True, max_length=190) # changed the length (actuals length 147)
+test_encodings = tokenizer(list(X_test), truncation=True, padding=True, max_length=190)
+class TweetDataset(torch.utils.data.Dataset):
+    def __init__(self, encodings, labels):
+        self.encodings = encodings
+        self.labels = labels.reset_index(drop=True)
+    def __getitem__(self, idx):
+        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+        item['labels'] = torch.tensor(self.labels.iloc[idx])
+        return item
+    def __len__(self):
+        return len(self.labels)
+
+train_dataset = TweetDataset(train_encodings, y_train)
+test_dataset = TweetDataset(test_encodings, y_test)
+config = RobertaConfig.from_pretrained(
+        "distilroberta-base",
+        num_labels=3,
+        hidden_dropout_prob=0.3,                  # Increase dropout to help prevent overfitting
+        attention_probs_dropout_prob=0.3          # Dropout in attention layers too
+)
+model = RobertaForSequenceClassification.from_pretrained("distilroberta-base", config=config)
+training_args = TrainingArguments(
+    output_dir='./results',  # Where to save model outputs and checkpoints
+    num_train_epochs=8,     # Train up to 8 epochs - this is the best checkpoint (initially it was 10)
+    per_device_train_batch_size=20, # Number of samples per batch for training
+    per_device_eval_batch_size=20, # Number of samples per batch for evaluation
+    logging_dir='./logs',          # Directory for training logs
+    logging_steps=1000,             # Log training info every 1000 steps
+    # no_cuda=True  # to force CPU usage if needed
+    eval_strategy="epoch",              # Run evaluation after every epoch to check model performance
+    save_strategy="epoch",                    # Save model checkpoint after each epoch
+    load_best_model_at_end=True,              # After training, load the checkpoint with best evaluation loss!! (Check this again)
+    metric_for_best_model="eval_loss",        # Use evaluation loss to determine which checkpoint is best
+    weight_decay=0.01                         # Add weight decay (L2 regularization) to prevent overfitting
+)
+early_stopping = EarlyStoppingCallback(
+    early_stopping_patience=2                 # Stop training if eval loss does not improve for 2 consecutive epochs
+)
+def compute_metrics(pred):
+    labels = pred.label_ids
+    preds = pred.predictions.argmax(-1)
+
+    precision, recall, f1, _ = precision_recall_fscore_support(labels, preds, average='weighted')
+    acc = accuracy_score(labels, preds)
+
+    return {
+        'accuracy': acc,
+        'f1': f1,
+        'precision': precision,
+        'recall': recall
+    }
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=test_dataset,
+    compute_metrics=compute_metrics,          # function for evaluating metrics
+    callbacks=[early_stopping],               # Enable early stopping during training
+)
+trainer.train()
