@@ -41,24 +41,29 @@ A robust NLP pipeline that leverages **transformers (RoBERTa)** to classify text
 3. **Tokenization & Filtering**:
    - `TweetTokenizer` from NLTK
    - Stopword removal
-
-4. **Feature Engineering**:
-   - TF-IDF vectorization for top offensive words
-   - Sentiment scores using VADER
-   - Topic modeling with LDA (`pyLDAvis`)
-   - Bigram extraction using `CountVectorizer`
-
----
-
+   
 ## 📊 Exploratory Data Analysis (EDA)
 
-- Word clouds and bar charts of top words per class
-- Sentiment distributions across classes
-- TF-IDF heatmaps for offensive vocabulary
-- LDA topic modeling (3-topic configuration)
-- Class balancing visualized with pie and bar charts
+1. **Class Distribution**:
+   - Visualized with bar and pie charts
+   - Showed imbalance across the three classes: hate, offensive, and neutral
 
----
+2. **Word and Phrase Patterns**:
+   - Most frequent words identified per class
+   - Word clouds generated for quick visual overview
+   - Top bigrams extracted using `CountVectorizer`
+
+3. **TF-IDF Analysis**:
+   - Highlighted key offensive and hateful terms across classes
+   - Heatmaps used to compare term usage between labels
+
+4. **Sentiment Scoring**:
+   - Used `VADER` to assign sentiment scores to each text
+   - Plotted average sentiment per class to reveal tone differences
+
+5. **Topic Modeling**:
+   - Applied LDA (Latent Dirichlet Allocation) to discover underlying topics
+   - Visualized topic distributions with `pyLDAvis`
 
 ## ⚖️ Handling Class Imbalance
 
@@ -194,23 +199,9 @@ AutoModelForSequenceClassification.from_pretrained("best_model")
 
 ---
 
-## 🛠 Installation
-
-```bash
-pip install -r requirements.txt
-```
-
-Or manually:
-```bash
-pip install transformers symspellpy evaluate lime streamlit praw pyLDAvis
-```
-
----
-
 ## 🙋‍♂️ Future Work
 
-- Integrate sarcasm detection module
-- Add LIME/SHAP for explainable AI
+- Integrate sarcasm detection module & additional data on subtle Hate Speech
 - Expand to multilingual datasets
 - Classify specific hate categories (e.g., racism, sexism, etc.)
 
@@ -218,6 +209,6 @@ pip install transformers symspellpy evaluate lime streamlit praw pyLDAvis
 
 ## 👨‍💻 Author
 
-**Your Name**  
-📧 your.email@example.com  
-🔗 [LinkedIn](https://www.linkedin.com/in/yourprofile) | [GitHub](https://github.com/yourprofile)
+**Koutroumanos Giorgos**  
+📧 g.koutroumanos@outlook.com  
+🔗 [LinkedIn](www.linkedin.com/in/koutroumanos) | [GitHub](https://github.com/GeorgiosKoutroumanos/Final-project-hate-speech-detection-with-NLP.git)
