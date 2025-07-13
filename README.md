@@ -203,7 +203,7 @@ AutoModelForSequenceClassification.from_pretrained("best_model")
 
 - Integrate sarcasm detection module & additional data on subtle Hate Speech
 - Expand to multilingual datasets
-- Classify specific hate categories (e.g., racism, sexism, etc.)
+- Classify specific hate categories
 
 ---
 
@@ -211,4 +211,4 @@ AutoModelForSequenceClassification.from_pretrained("best_model")
 
 **Koutroumanos Giorgos**  
 📧 g.koutroumanos@outlook.com  
-🔗 [LinkedIn](www.linkedin.com/in/koutroumanos) | [GitHub](https://github.com/GeorgiosKoutroumanos/Final-project-hate-speech-detection-with-NLP.git)
+[GitHub](https://github.com/GeorgiosKoutroumanos/Final-project-hate-speech-detection-with-NLP.git)
