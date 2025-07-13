@@ -11,6 +11,7 @@ A robust NLP pipeline that leverages **transformers (RoBERTa)** to classify text
 - **Frameworks**: HuggingFace `transformers`, `scikit-learn`, `NLTK`, `Streamlit`, `SymSpell`, `pyLDAvis`
 - **Deployment**: Streamlit App
 - **Notebook** executed on Google Colab
+- **Link to presentation**: [Link](https://docs.google.com/presentation/d/1jIAu_QzziDhHAd7GlFLvYvq_BFCgo-mXm0zjBqdzRGI/edit?slide=id.g36eb9ad023e_9_0#slide=id.g36eb9ad023e_9_0)
 
 ---
 
